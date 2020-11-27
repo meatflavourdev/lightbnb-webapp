@@ -40,18 +40,18 @@ const getUserWithId = function(id) {
 };
 exports.getUserWithId = getUserWithId;
 
-
 /**
  * Add a new user to the database.
  * @param {{name: string, password: string, email: string}} user
  * @return {Promise<{}>} A promise to the user.
  */
-const addUser =  function(user) {
-  const userId = Object.keys(users).length + 1;
-  user.id = userId;
-  users[userId] = user;
-  return Promise.resolve(user);
-}
+const addUser = function(user) {
+  console.log('user: ', user);
+  return pool
+    .query('INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *', [user.name, user.email, user.password])
+    .then((res) => res.rows[0])
+    .catch(err => console.error('Error executing query', err.stack));
+};
 exports.addUser = addUser;
 
 /// Reservations
