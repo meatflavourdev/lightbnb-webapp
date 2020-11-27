@@ -48,7 +48,6 @@ exports.getUserWithId = getUserWithId;
  * @return {Promise<{}>} A promise to the user.
  */
 const addUser = function(user) {
-  console.log('user: ', user);
   return pool
     .query('INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *', [user.name, user.email, user.password])
     .then((res) => res.rows[0])
@@ -114,7 +113,6 @@ const getAllProperties = function(options, limit = 10) {
     queryParams.push(options.maximum_price_per_night * 100);
     queryString += `AND cost_per_night <= $${queryParams.length} `;
   }
-
   queryString += `
   GROUP BY properties.id
   `;
@@ -122,14 +120,11 @@ const getAllProperties = function(options, limit = 10) {
     queryParams.push(options.minimum_rating);
     queryString += `HAVING avg(property_reviews.rating) >= $${queryParams.length} `;
   }
-
   queryParams.push(limit);
   queryString += `
   ORDER BY cost_per_night
   LIMIT $${queryParams.length};
   `;
-
-  console.log(queryString, queryParams);
 
   return pool.query(queryString, queryParams)
     .then((res) => res.rows)
