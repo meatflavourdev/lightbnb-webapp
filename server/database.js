@@ -1,5 +1,13 @@
 // database.js
-const pg = require('pg');
+const { Pool } = require("pg");
+
+// Database connection
+const pool = new Pool({
+  user: "jdevdb",
+  password: "4300_maybe_gate_beyond_SIGNAL_WALL_CHOOSE_1881:::::::::::::::::",
+  host: "localhost",
+  database: "lightbnb",
+});
 
 // Placeholder Data
 const properties = require('./json/properties.json');
