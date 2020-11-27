@@ -1,3 +1,7 @@
+// database.js
+const pg = require('pg');
+
+// Placeholder Data
 const properties = require('./json/properties.json');
 const users = require('./json/users.json');
 
